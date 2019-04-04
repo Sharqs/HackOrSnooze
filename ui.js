@@ -86,8 +86,22 @@ $(async function() {
     $allStoriesList.show();
   });
 
+  // Dropdown for the new Story form
   $navNewStory.on("click", function (){
     $newStoryForm.slideToggle();
+  });
+
+  // On submitting new story compile obj and call addStory function
+  $newStoryForm.on("submit", function(evt) {
+    evt.preventDefault(); // no page-refresh on submit
+
+    let newStoryObj = {
+    author: $("new-story-author").val(),
+    title: $("#new-story-title").val(),
+    url: $("#new-story-url").val()
+    };
+    // call currentUser to get author name
+    storyList.addStory(currentUser, newStoryObj);
   });
 
   /**
