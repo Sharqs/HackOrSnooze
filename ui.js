@@ -126,7 +126,8 @@ $(async function() {
     let hostName = getHostName(story.url);
     // render story markup
     const storyMarkup = $(`
-      <li id="${story.storyId}">
+      <li id="${story.storyId}" class="list-group-item">
+        <i class="far fa-star"></i>
         <a class="article-link" href="${story.url}" target="a_blank">
           <strong>${story.title}</strong>
         </a>
@@ -251,15 +252,22 @@ $(async function() {
   $newStoryForm.on("submit", async function(evt) {
     evt.preventDefault(); // no page-refresh on submit
     let newStoryObj = {
-    author: $("#new-story-author").val(),
-    title: $("#new-story-title").val(),
-    url: $("#new-story-url").val()
+      author: $("#new-story-author").val(),
+      title: $("#new-story-title").val(),
+      url: $("#new-story-url").val()
     }
+    //
+    $newStoryForm.trigger("reset");
+    $newStoryForm.slideToggle();
     // 
     let newPost = await storyList.addStory(currentUser, newStoryObj);
-    // console.log(newPost)
     //
-    $("#all-articles-list").prepend(generateStoryHTML(newPost));
+    let postHtml = generateStoryHTML(newPost);
+    //
+    let badgeHtml = `<span class="badge badge-warning">NEW</span> `
+
+    $("#all-articles-list").prepend(postHtml);
+    $("#all-articles-list li:nth-child(1)").find("strong").prepend(badgeHtml);
   });
 
 });

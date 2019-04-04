@@ -47,6 +47,9 @@ class StoryList {
     }
     let post = await $.post(`${BASE_URL}/stories`, requestBody);
     let storyInstance = new Story(post.story);
+    //
+    this.stories.unshift(storyInstance);
+    //
     return storyInstance;
   }
 }
