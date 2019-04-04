@@ -8,6 +8,7 @@ $(async function() {
   const $ownStories = $("#my-articles");
   const $navLogin = $("#nav-login");
   const $navLogOut = $("#nav-logout");
+  const $navNewStory =$("#nav-new-story");
 
   // global storyList variable
   let storyList = null;
@@ -179,9 +180,10 @@ $(async function() {
   function showNavForLoggedInUser() {
     $navLogin.hide();
     $navLogOut.show();
+    $navNewStory.show();
   }
 
-  // simple function to pull the hostname from a URL
+  // simple function to pull the hostname from a URL (FURTHER STUDY: try prop("hostname"))
   function getHostName(url) {
     let hostName;
     if (url.indexOf("://") > -1) {
