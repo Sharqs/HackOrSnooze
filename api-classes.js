@@ -42,12 +42,17 @@ class StoryList {
   async addStory(user, newStory) {
     // this function should return the newly created story so it can be used in the script.js file where it will be appended to the DOM
     let requestBody = {
-      token: user.token,
+      token: user.loginToken,
       story: newStory
     }
-    $.post(`https://hack-or-snooze-v2.herokuapp.com/   `, requestBody, successFunction)
+    let post = await $.post(`${BASE_URL}/stories`, requestBody);
+    let storyInstance = new Story(post.story);
+    return storyInstance;
   }
 }
+
+
+
 
 /************************************************************************************************************************/
 

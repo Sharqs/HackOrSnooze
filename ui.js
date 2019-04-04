@@ -248,15 +248,18 @@ $(async function() {
   /*
   On submitting new story compile obj and call addStory function
   */
-  $newStoryForm.on("submit", function(evt) {
+  $newStoryForm.on("submit", async function(evt) {
     evt.preventDefault(); // no page-refresh on submit
     let newStoryObj = {
-    author: $("new-story-author").val(),
+    author: $("#new-story-author").val(),
     title: $("#new-story-title").val(),
     url: $("#new-story-url").val()
     }
-    // call currentUser to get author name
-    storyList.addStory(currentUser, newStoryObj);
+    // 
+    let newPost = await storyList.addStory(currentUser, newStoryObj);
+    // console.log(newPost)
+    //
+    $("#all-articles-list").prepend(generateStoryHTML(newPost));
   });
 
 });
