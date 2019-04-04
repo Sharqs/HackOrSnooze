@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,8 +9,12 @@
     crossorigin="anonymous">
   <link rel="stylesheet" href="style.css" type="text/css">
 </head>
-
 <body>
+
+<!---------------------------------------------------------------------------------------------------->
+<!--- NAV -------------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------------------->
+
   <nav>
     <b><a class="nav-link navbar-brand" href="#" id="nav-all">Hack or Snooze</a></b>
     <a class="nav-link nav-right" href="#" id="nav-login">login/create user</a>
@@ -24,61 +27,65 @@
     <a class="nav-link nav-right hidden" href="#" id="nav-new-story">create new story</a>
   </nav>
 
-  <section class="new-story-form-container container">
-      <form action="#" id="new-story-form" class="new-story-form hidden" method="post">
-        <h4>New Story</h4>
-        <div class="new-story-input">
-            <label for="new-story-author">author</label>
-            <input id="new-story-author" type="text">
-          </div>
-        <div class="new-story-input">
-          <label for="new-story-title">title</label>
-          <input id="new-story-title" type="text">
-        </div>
-        <div class="new-story-input">
-          <label for="new-story-url">url</label>
-          <input id="new-story-url" type="url">
-        </div>
-        <button type="submit">post</button>
-        <hr>
-      </form>
-    </section>
+<!---------------------------------------------------------------------------------------------------->
+<!--- ARTICLES SECTION ------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------------------->
 
   <section class="articles-container container">
-    <form action="" class="hidden" id="submit-form">
+
+    <!--- NEW ARTICLE FORM ------------------------------->
+
+    <form action="#" class="new-story-form hidden" id="new-story-form">
+      <h4>New Story</h4>
       <div>
-        <label for="author">author</label>
-        <input id="author" required type="text" placeholder="author name">
+        <label for="new-story-author">author</label>
+        <input id="new-story-author" required type="text" placeholder="author name">
       </div>
       <div>
-        <label for="title">title</label>
-        <input id="title" required type="text" placeholder="article title">
+        <label for="new-story-title">title</label>
+        <input id="new-story-title" required type="text" placeholder="article title">
       </div>
       <div>
-        <label for="url">url</label>
-        <input id="url" required type="url" placeholder="article url">
+        <label for="new-story-url">url</label>
+        <input id="new-story-url" required type="url" placeholder="article url">
       </div>
-      <button type="submit">submit</button>
+      <button type="submit">post</button>
       <hr>
     </form>
+
+    <!--- ALL ARTICLES LIST ---------------------------->
+
     <article>
       <ol id="all-articles-list" class="articles-list">
         <h3>Loading...</h3>
       </ol>
     </article>
+
+    <!--- FAVORTIED ARTICLES --------------------------->
+
     <article>
       <ul id="favorited-articles" class="hidden articles-list">
       </ul>
     </article>
+
+    <!--- FILTERED ARTICLES ---------------------------->
+
     <article>
       <ul id="filtered-articles" class="hidden articles-list">
       </ul>
     </article>
+
+    <!--- USER ARTICLES -------------------------------->
+
     <article>
       <ul id="my-articles" class="hidden articles-list">
       </ul>
     </article>
   </section>
+
+<!---------------------------------------------------------------------------------------------------->
+<!--- EDIT ARTICLE FORM ------------------------------------------------------------------------------>
+<!---------------------------------------------------------------------------------------------------->
 
   <section class="edit-article-container container">
     <form action="#" id="edit-article-form" class="hidden" method="post">
@@ -91,7 +98,14 @@
     </form>
   </section>
 
+<!---------------------------------------------------------------------------------------------------->
+<!--- LOGIN / SIGN UP FORMS -------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------------------->
+
   <section class="account-forms-container container">
+
+    <!--- LOGIN FORM ----------------------------------->
+
     <form action="#" id="login-form" class="account-form hidden" method="post">
       <h4>Login</h4>
       <div class="login-input">
@@ -105,6 +119,8 @@
       <button type="submit">login</button>
       <hr>
     </form>
+
+    <!--- CREATE ACCOUNT FORM -------------------------->
 
     <form action="#" id="create-account-form" class="account-form hidden" method="post">
       <h4>Create Account</h4>
@@ -124,6 +140,10 @@
     </form>
   </section>
 
+<!---------------------------------------------------------------------------------------------------->
+<!--- USER PROFILE ----------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------------------->
+
   <section id="user-profile" class="container hidden">
     <h4>User Profile Info</h4>
     <section>
@@ -133,10 +153,12 @@
     </section>
   </section>
 
+<!---------------------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------------------->
+
 </body>
-<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 <script src="api-classes.js"></script>
 <script src="ui.js"></script>
-
 </html>
