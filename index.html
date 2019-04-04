@@ -24,6 +24,22 @@
     <a class="nav-link nav-right hidden" href="#" id="nav-new-story">create new story</a>
   </nav>
 
+  <section class="new-story-form-container container">
+      <form action="#" id="new-story-form" class="new-story-form hidden" method="post">
+        <h4>New Story</h4>
+        <div class="new-story-input">
+          <label for="new-story-title">title</label>
+          <input id="new-story-title" type="text">
+        </div>
+        <div class="new-story-input">
+          <label for="new-story-url">url</label>
+          <input id="new-story-url" type="url">
+        </div>
+        <button type="submit">post</button>
+        <hr>
+      </form>
+    </section>
+
   <section class="articles-container container">
     <form action="" class="hidden" id="submit-form">
       <div>
@@ -85,6 +101,7 @@
       <button type="submit">login</button>
       <hr>
     </form>
+
     <form action="#" id="create-account-form" class="account-form hidden" method="post">
       <h4>Create Account</h4>
       <div class="login-input">

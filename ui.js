@@ -9,6 +9,7 @@ $(async function() {
   const $navLogin = $("#nav-login");
   const $navLogOut = $("#nav-logout");
   const $navNewStory =$("#nav-new-story");
+  const $newStoryForm = $("#new-story-form");
 
   // global storyList variable
   let storyList = null;
@@ -83,6 +84,10 @@ $(async function() {
     hideElements();
     await generateStories();
     $allStoriesList.show();
+  });
+
+  $navNewStory.on("click", function (){
+    $newStoryForm.slideToggle();
   });
 
   /**
