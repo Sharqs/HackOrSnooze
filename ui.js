@@ -357,19 +357,19 @@ $(async function() {
     $(".btn-light").css("background-color", "#fff");
     if (e.target.id === "all-btn") {
       $allStoriesList.show();
-      $("all-btn").css("background-color", "#ccc");
+      $("#all-btn").css("background-color", "#ccc");
     }
     else if (e.target.id === "user-btn") {
       updateOwnStories();
       $(`.${currentUser.username}`).show();
       $ownStories.show();
-      $("user-btn").css("background-color", "#ccc");
+      $("#user-btn").css("background-color", "#ccc");
     }
     else {
       updateFavorites();
       $(`.${currentUser.username}`).show();
       $favoritedArticles.show();
-      $("fav-btn").css("background-color", "#ccc");
+      $("#fav-btn").css("background-color", "#ccc");
     }
   });
 
