@@ -10,6 +10,12 @@ body {
   background-attachment: fixed;
 }
 
+.articles-container {
+  background-image: url('https://www.photohdx.com/images/2017/06/clean-white-paper-background.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+}
+
 h1 {
   font-size: 1.1rem;
   margin: 0;

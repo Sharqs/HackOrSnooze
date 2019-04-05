@@ -96,7 +96,7 @@ $(async function() {
     let hostName = getHostName(story.url);
     // render story markup
     const storyMarkup = $(`
-      <li id="${story.storyId}" class="list-group-item">
+      <li id="${story.storyId}" class="list-group-item ${story.username}">
         <i class="far fa-star hidden"></i>
         <a class="article-link" href="${story.url}" target="a_blank">
           <strong>${story.title}</strong>
@@ -133,6 +133,7 @@ $(async function() {
   */
 
   function showNavForLoggedInUser() {
+    deleteAble();
     $navLogin.hide();
     $navLogOut.show();
     $navNewStory.show();
@@ -202,6 +203,7 @@ $(async function() {
     // grab the username and password
     const username = $("#login-username").val();
     const password = $("#login-password").val();
+
     // call the login static method to build a user instance
     const userInstance = await User.login(username, password);
     // set the global user to the user instance
@@ -231,6 +233,7 @@ $(async function() {
     // Show the Login and Create Account Forms
     $loginForm.slideToggle();
     $createAccountForm.slideToggle();
+    $allStoriesList.hide();
   });
 
   /********************************************************************************/
@@ -286,34 +289,31 @@ $(async function() {
     let targetId = $(e.target).parent().attr("id");
     // let list = storyList.stories;
     let targetStory = storyList.stories.find(story => story.storyId === targetId);
-    let star = $(e.target)[0];
-    //
-    if ($(star).hasClass('far')) {
-      let res = await currentUser.addFav(targetStory);
-      if (res) {
-        $(star).removeClass('far');
-        $(star).addClass('fas');
-      }
-    }
-    //
-    else {
-      let res = await currentUser.delFav(targetStory);
-      if (res) {
-        $(star).removeClass('fas');
-        $(star).addClass('far');
-      }
+    let $star = $(e.target).eq(0);
+
+    let res = $star.hasClass('far') ? await currentUser.addFav(targetStory) : await currentUser.delFav(targetStory);
+
+    if (res) {
+      $star.toggleClass('far fas');
     }
   });
 
   /********************************************************************************/
 
-  $("#fav-btn").on("click", function(e) {
-    console.log("hello")
-    updateFavorites();
-    $(".btn-light").css("background-color", "#fff");
-    $("fav-btn").css("background-color", "#ccc");
-    $("#favorited-articles").show();
-    $("#all-articles-list").hide();
-  });
+  // $("#fav-btn").on("click", function(e) {
+  //   console.log("hello")
+  //   updateFavorites();
+  //   $(".btn-light").css("background-color", "#fff");
+  //   $("fav-btn").css("background-color", "#ccc");
+  //   $("#favorited-articles").show();
+  //   $("#all-articles-list").hide();
+  // });
+  function deleteAble (){
+    //let canDelete = storyList.filter(story => story.username === currentUser.username).map(story => story.storyId);
+    //canDelete.forEach()
+    $(`.${currentUser.username}`).append()
+
+  }
+
 
 });

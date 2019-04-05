@@ -150,9 +150,9 @@ class User {
   
   */
   async addFav(story) {
-    let addResponse = await $.post(`${BASE_URL}/users/${this.username}/favorites/${story.storyId}`, {token: this.loginToken});
+    let addResponse = await $.post(`${BASE_URL}/users/${this.username}/favorites/${story.storyId}`, { token: this.loginToken });
     this.favorites = addResponse.user.favorites;
-    return addResponse.user.name;
+    return addResponse.user;
   }
 
   /********************************************************************************/
@@ -165,10 +165,10 @@ class User {
     let delResponse = await $.ajax({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       type: "DELETE",
-      data: {token: this.loginToken}
+      data: { token: this.loginToken }
     });
     this.favorites = delResponse.user.favorites;
-    return delResponse.user.name;
+    return delResponse.user;
   }
 }
 
