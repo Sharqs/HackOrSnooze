@@ -104,6 +104,16 @@ $(async function() {
 
   /********************************************************************************/
 
+  function updateOwnStories() {
+    $ownStories.empty();
+    for (let story of currentUser.ownStories) {
+      let result = generateStoryHTML(story);
+      $ownStories.prepend(result);
+    }
+  }
+
+  /********************************************************************************/
+
   /*
   A function to render HTML for an individual Story instance
   */
@@ -333,28 +343,35 @@ $(async function() {
 
   /********************************************************************************/
 
-  // $("#fav-btn").on("click", function(e) {
-  //   updateFavorites();
-  //   $(".btn-light").css("background-color", "#fff");
-  //   $("fav-btn").css("background-color", "#ccc");
-  //   $("#favorited-articles").show();
-  //   $("#all-articles-list").hide();
-  //   $("#user-articles-list").hide();
-  // });
+  $("#fav-btn").on("click", function(e) {
+    updateFavorites();
 
-  // $("#filter-btns").on("click", function(e) {
-  //   e.preventDefault();
-  //   // $(".articles-list").hide();
-  //   if (e.target.id === "all-btn") {
-  //     $allStoriesList.show();
-  //   }
-  //   else if (e.target.id === "user-btn") {
-  //     $ownStories.show();
-  //   }
-  //   else {
-  //     $favoritedArticles.show();
-  //   }
-  // });
+    $(".btn-light").css("background-color", "#fff");
+    $("fav-btn").css("background-color", "#ccc");
+  
+  });
+
+  $("#filter-btns").on("click", function(e) {
+    e.preventDefault();
+    $(".articles-list").hide();
+    $(".btn-light").css("background-color", "#fff");
+    if (e.target.id === "all-btn") {
+      $allStoriesList.show();
+      $("all-btn").css("background-color", "#ccc");
+    }
+    else if (e.target.id === "user-btn") {
+      updateOwnStories();
+      $(`.${currentUser.username}`).show();
+      $ownStories.show();
+      $("user-btn").css("background-color", "#ccc");
+    }
+    else {
+      updateFavorites();
+      $(`.${currentUser.username}`).show();
+      $favoritedArticles.show();
+      $("fav-btn").css("background-color", "#ccc");
+    }
+  });
 
 
 
