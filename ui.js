@@ -1,8 +1,9 @@
 $(async function() {
-
+  
   // cache some selectors we'll be using quite a bit
   const $allStoriesList = $("#all-articles-list");
   const $submitForm = $("#submit-form");
+  const $favoritedArticles = $("#favorited-articles");
   const $filteredArticles = $("#filtered-articles");
   const $loginForm = $("#login-form");
   const $createAccountForm = $("#create-account-form");
@@ -11,53 +12,12 @@ $(async function() {
   const $navLogOut = $("#nav-logout");
   const $navNewStory =$("#nav-new-story");
   const $newStoryForm = $("#new-story-form");
-
   // global storyList variable
   let storyList = null;
-
   // global currentUser variable
   let currentUser = null;
-
   await checkIfLoggedIn();
-
-  /********************************************************************************/
-
-  /*
-  Event listener for logging in.
-  If successfully we will setup the user instance
-  */
-  $loginForm.on("submit", async function(evt) {
-    evt.preventDefault(); // no page-refresh on submit
-    // grab the username and password
-    const username = $("#login-username").val();
-    const password = $("#login-password").val();
-    // call the login static method to build a user instance
-    const userInstance = await User.login(username, password);
-    // set the global user to the user instance
-    currentUser = userInstance;
-    syncCurrentUserToLocalStorage();
-    loginAndSubmitForm();
-  });
-
-  /********************************************************************************/
-
-  /*
-  Event listener for signing up.
-  If successfully we will setup a new user instance
-  */
-  $createAccountForm.on("submit", async function(evt) {
-    evt.preventDefault(); // no page refresh
-    // grab the required fields
-    let name = $("#create-account-name").val();
-    let username = $("#create-account-username").val();
-    let password = $("#create-account-password").val();
-    // call the create method, which calls the API and then builds a new user instance
-    const newUser = await User.create(username, password, name);
-    currentUser = newUser;
-    syncCurrentUserToLocalStorage();
-    loginAndSubmitForm();
-  });
-
+  
   /********************************************************************************/
 
   /*
@@ -119,6 +79,16 @@ $(async function() {
 
   /********************************************************************************/
 
+  function updateFavorites() {
+    $favoritedArticles.empty();
+    for (let story of currentUser.favorites) {
+      const result = generateStoryHTML(story);
+      $favoritedArticles.prepend(result);
+    }
+  }
+
+  /********************************************************************************/
+
   /*
   A function to render HTML for an individual Story instance
   */
@@ -167,6 +137,7 @@ $(async function() {
     $navLogOut.show();
     $navNewStory.show();
     $("i").show();
+    $(".filters").show();
   }
 
   /********************************************************************************/
@@ -204,6 +175,44 @@ $(async function() {
   /************************************************************************************************************************/
 
   /*
+  Event listener for signing up.
+  If successfully we will setup a new user instance
+  */
+  $createAccountForm.on("submit", async function(evt) {
+    evt.preventDefault(); // no page refresh
+    // grab the required fields
+    let name = $("#create-account-name").val();
+    let username = $("#create-account-username").val();
+    let password = $("#create-account-password").val();
+    // call the create method, which calls the API and then builds a new user instance
+    const newUser = await User.create(username, password, name);
+    currentUser = newUser;
+    syncCurrentUserToLocalStorage();
+    loginAndSubmitForm();
+  });
+
+  /********************************************************************************/
+
+  /*
+  Event listener for logging in.
+  If successfully we will setup the user instance
+  */
+  $loginForm.on("submit", async function(evt) {
+    evt.preventDefault();
+    // grab the username and password
+    const username = $("#login-username").val();
+    const password = $("#login-password").val();
+    // call the login static method to build a user instance
+    const userInstance = await User.login(username, password);
+    // set the global user to the user instance
+    currentUser = userInstance;
+    syncCurrentUserToLocalStorage();
+    loginAndSubmitForm();
+  });
+
+  /********************************************************************************/
+
+  /*
   Log Out Functionality
   */
   $navLogOut.on("click", function() {
@@ -216,19 +225,18 @@ $(async function() {
   /********************************************************************************/
 
   /*
-  Event Handler for Clicking Login
+  Event Handler for login button
   */
   $navLogin.on("click", function() {
     // Show the Login and Create Account Forms
     $loginForm.slideToggle();
     $createAccountForm.slideToggle();
-    $allStoriesList.toggle();
   });
 
   /********************************************************************************/
 
   /*
-  Event handler for Navigation to Homepage
+  Event handler for navigation to Homepage
   */
   $("body").on("click", "#nav-all", async function() {
     hideElements();
@@ -239,7 +247,7 @@ $(async function() {
   /********************************************************************************/
 
   /*
-  Dropdown for the new Story form
+  Dropdown for the new story form
   */
   $navNewStory.on("click", function (){
     $newStoryForm.slideToggle();
@@ -263,39 +271,49 @@ $(async function() {
     let postHtml = generateStoryHTML(newPost);
     let badgeHtml = `<span class="badge badge-warning">NEW</span> `
     $("#all-articles-list").prepend(postHtml);
+    $(".articles-container i").first().show();
     $("#all-articles-list li:nth-child(1)").find("strong").prepend(badgeHtml);
   });
 
   /********************************************************************************/
 
-  $(".articles-container").on("click", "i", (e) => {
+  /*
+  When user toggles star, modify favorites list
+  */
+  $(".articles-container").on("click", "i", async function(e) {
     e.preventDefault();
     //
     let targetId = $(e.target).parent().attr("id");
-    let list = storyList.stories
-    let targetStory = list.find(story => story.storyId === targetId);
+    // let list = storyList.stories;
+    let targetStory = storyList.stories.find(story => story.storyId === targetId);
+    let star = $(e.target)[0];
     //
-    let star = $(e.target)[0]
-    if($(star).hasClass('far')) {
-      $(star).removeClass('far');
-      $(star).addClass('fas');
-      currentUser.favorites.push(targetStory);
-      $.post(`${BASE_URL}/users/${currentUser.username}/favorites/${targetId}`, {token: currentUser.loginToken});
-    } 
+    if ($(star).hasClass('far')) {
+      let res = await currentUser.addFav(targetStory);
+      if (res) {
+        $(star).removeClass('far');
+        $(star).addClass('fas');
+      }
+    }
+    //
     else {
-      $.ajax({
-        url: `${BASE_URL}/users/${currentUser.username}/favorites/${targetId}`,
-        type: "DELETE",
-        data: {token: currentUser.loginToken},
-        success: function() {
-          $(star).removeClass('fas');
-          $(star).addClass('far');
-        }
-      });
-      let storyIndex = currentUser.favorites.findIndex(story => story.storyId === targetId);
-      currentUser.favorites.splice(storyIndex - 1, 1);
+      let res = await currentUser.delFav(targetStory);
+      if (res) {
+        $(star).removeClass('fas');
+        $(star).addClass('far');
+      }
     }
   });
 
+  /********************************************************************************/
+
+  $("#fav-btn").on("click", function(e) {
+    console.log("hello")
+    updateFavorites();
+    $(".btn-light").css("background-color", "#fff");
+    $("fav-btn").css("background-color", "#ccc");
+    $("#favorited-articles").show();
+    $("#all-articles-list").hide();
+  });
 
 });

@@ -49,13 +49,11 @@ class StoryList {
     let storyInstance = new Story(post.story);
     //
     this.stories.unshift(storyInstance);
+    user.ownStories.unshift(storyInstance);
     //
     return storyInstance;
   }
 }
-
-
-
 
 /************************************************************************************************************************/
 
@@ -145,6 +143,33 @@ class User {
     );
     return existingUser;
   }
+
+  /********************************************************************************/
+
+  /*
+  
+  */
+  async addFav(story) {
+    let addResponse = await $.post(`${BASE_URL}/users/${this.username}/favorites/${story.storyId}`, {token: this.loginToken});
+    this.favorites = addResponse.user.favorites;
+    return addResponse.user.name;
+  }
+
+  /********************************************************************************/
+
+
+  /*
+  
+  */
+  async delFav(story) {
+    let delResponse = await $.ajax({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      type: "DELETE",
+      data: {token: this.loginToken}
+    });
+    this.favorites = delResponse.user.favorites;
+    return delResponse.user.name;
+  }
 }
 
 /************************************************************************************************************************/
@@ -165,4 +190,7 @@ class Story {
     this.createdAt = storyObj.createdAt;
     this.updatedAt = storyObj.updatedAt;
   }
+
+  // updateStory() {}
+
 }

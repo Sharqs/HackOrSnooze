@@ -17,16 +17,69 @@
 <!---------------------------------------------------------------------------------------------------->
 
   <nav>
-    <a class="navbar-brand" href="#" id="nav-all">Hack or Snooze</a>
-    <a class="nav-link nav-right" href="#" id="nav-login">login/create user</a>
+    <a class="navbar-brand" href="#" id="nav-all"><i class="fas fa-laptop"></i> Hack <small>or</small> Snooze <i class="fas fa-bed"></i></a>
+    <a class="btn btn-dark btn-sm nav-right" href="#" id="nav-login"><i class="fas fa-user"></i></a>
     <span class="nav-link nav-right hidden" id="nav-welcome">
       <a href="#" id="nav-user-profile"></a>
     </span>
-    <a class="hidden" id="nav-logout" href="#">
-      <small>logout</small>
-    </a>
-    <a class="nav-link nav-right hidden" href="#" id="nav-new-story">create new story</a>
+    <a class="hidden btn btn-sm ml-2" id="nav-logout" href="#">logout</a>
+    <a class="btn btn-dark btn-sm nav-right hidden" href="#" id="nav-new-story">new story</a>
   </nav>
+
+<!---------------------------------------------------------------------------------------------------->
+<!--- LOGIN / SIGN UP FORMS -------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------------------->
+
+<section class="account-forms-container container">
+
+  <!--- LOGIN FORM ----------------------------------->
+
+  <form action="#" id="login-form" class="account-form hidden" method="post">
+    <h4>Login</h4>
+    <div class="login-input">
+      <label for="login-username">username</label>
+      <input id="login-username" type="text">
+    </div>
+    <div class="login-input">
+      <label for="login-password">password</label>
+      <input id="login-password" type="password">
+    </div>
+    <button type="submit">login</button>
+    <hr>
+  </form>
+
+  <!--- CREATE ACCOUNT FORM -------------------------->
+
+  <form action="#" id="create-account-form" class="account-form hidden" method="post">
+    <h4>Create Account</h4>
+    <div class="login-input">
+      <label for="create-account-name">name</label>
+      <input id="create-account-name" type="text">
+    </div>
+    <div class="login-input">
+      <label for="create-account-username">username</label>
+      <input id="create-account-username" type="text">
+    </div>
+    <div class="login-input">
+      <label for="create-account-password">password</label>
+      <input id="create-account-password" type="password">
+    </div>
+    <button type="submit">create account</button>
+  </form>
+</section>
+
+<!---------------------------------------------------------------------------------------------------->
+<!--- USER PROFILE ----------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------------------->
+
+<section id="user-profile" class="container hidden">
+  <h4>User Profile Info</h4>
+  <section>
+    <div id="profile-name">Name:</div>
+    <div id="profile-username">Username:</div>
+    <div id="profile-account-date">Account Created:</div>
+  </section>
+</section>
 
 <!---------------------------------------------------------------------------------------------------->
 <!--- ARTICLES SECTION ------------------------------------------------------------------------------->
@@ -54,32 +107,45 @@
       <hr>
     </form>
 
+    <!--- FILTERS -------------------------------------->
+    
+    <div class="filters hidden">
+      <div class="row mt-3">
+        <div class="col-4"> </div>
+        <div class="col-4 btn-group">
+          <button id="all-btn" class="btn btn-light btn-sm">all</button>
+          <button id="user-btn" class="btn btn-light btn-sm">user</button>
+          <button id="fav-btn" class="btn btn-light btn-sm">favs</button>
+        </div>
+      </div>
+    </div>
+
     <!--- ALL ARTICLES LIST ---------------------------->
 
-    <article>
+    <article id="main-arts">
       <ol id="all-articles-list" class="list-group articles-list">
-        <h3>Loading...</h3>
+        <h3 id="loading">Loading...</h3>
       </ol>
     </article>
 
     <!--- FAVORTIED ARTICLES --------------------------->
 
     <article>
-      <ul id="favorited-articles" class="hidden articles-list">
+      <ul id="favorited-articles" class="hidden list-group articles-list">
       </ul>
     </article>
 
     <!--- FILTERED ARTICLES ---------------------------->
 
     <article>
-      <ul id="filtered-articles" class="hidden articles-list">
+      <ul id="filtered-articles" class="hidden list-group articles-list">
       </ul>
     </article>
 
     <!--- USER ARTICLES -------------------------------->
 
     <article>
-      <ul id="my-articles" class="hidden articles-list">
+      <ul id="my-articles" class="hidden list-group articles-list">
       </ul>
     </article>
   </section>
@@ -97,61 +163,6 @@
         <button type="submit">change</button>
       </div>
     </form>
-  </section>
-
-<!---------------------------------------------------------------------------------------------------->
-<!--- LOGIN / SIGN UP FORMS -------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------------------------------->
-
-  <section class="account-forms-container container">
-
-    <!--- LOGIN FORM ----------------------------------->
-
-    <form action="#" id="login-form" class="account-form hidden" method="post">
-      <h4>Login</h4>
-      <div class="login-input">
-        <label for="login-username">username</label>
-        <input id="login-username" type="text">
-      </div>
-      <div class="login-input">
-        <label for="login-password">password</label>
-        <input id="login-password" type="password">
-      </div>
-      <button type="submit">login</button>
-      <hr>
-    </form>
-
-    <!--- CREATE ACCOUNT FORM -------------------------->
-
-    <form action="#" id="create-account-form" class="account-form hidden" method="post">
-      <h4>Create Account</h4>
-      <div class="login-input">
-        <label for="create-account-name">name</label>
-        <input id="create-account-name" type="text">
-      </div>
-      <div class="login-input">
-        <label for="create-account-username">username</label>
-        <input id="create-account-username" type="text">
-      </div>
-      <div class="login-input">
-        <label for="create-account-password">password</label>
-        <input id="create-account-password" type="password">
-      </div>
-      <button type="submit">create account</button>
-    </form>
-  </section>
-
-<!---------------------------------------------------------------------------------------------------->
-<!--- USER PROFILE ----------------------------------------------------------------------------------->
-<!---------------------------------------------------------------------------------------------------->
-
-  <section id="user-profile" class="container hidden">
-    <h4>User Profile Info</h4>
-    <section>
-      <div id="profile-name">Name:</div>
-      <div id="profile-username">Username:</div>
-      <div id="profile-account-date">Account Created:</div>
-    </section>
   </section>
 
 <!---------------------------------------------------------------------------------------------------->

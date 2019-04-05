@@ -4,6 +4,10 @@ html {
 
 body {
   margin: 8px 7.5vw;
+  background-color: #222;
+  background-image: url("https://wallpapercave.com/wp/LRxGqsU.jpg");
+  background-size: 100vw;
+  background-attachment: fixed;
 }
 
 h1 {
@@ -35,6 +39,7 @@ nav {
   background-color: #ff6600;
   align-items: center;
   padding: 5px 20px;
+  border-bottom: 2px solid #333;
   border-radius: 3px 3px 0 0;
 }
 
@@ -44,6 +49,19 @@ nav {
   font-weight: bold;
   font-family: 'Arial Black', Gadget, sans-serif;
   letter-spacing: 3px;
+}
+
+#nav-all:hover {
+  color: #333;
+  text-shadow: 1px 1px #ddd;
+}
+
+#nav-login, #nav-logout, #nav-new-story {
+  box-shadow: none;
+}
+
+#nav-logout {
+  border: 1px solid #333;
 }
 
 .main-nav-links {
@@ -133,6 +151,31 @@ form > hr {
 #create-account-form button {
   padding: 10px;
   width: 8rem;
+}
+
+.btn-light, .btn-light:hover {
+  background-color: #fff;
+  border: 1px solid #333;
+}
+
+#all-btn {
+  background-color: #ccc;
+}
+
+/* #user-btn {
+
+}
+
+#fav-btn {
+
+} */
+
+#loading {
+  margin-top: 14px;
+}
+
+#main-arts {
+  margin-top: -15px;
 }
 
 .articles-list {
