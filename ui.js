@@ -127,7 +127,7 @@ $(async function() {
     // render story markup
     const storyMarkup = $(`
       <li id="${story.storyId}" class="list-group-item">
-        <i class="far fa-star"></i>
+        <i class="far fa-star hidden"></i>
         <a class="article-link" href="${story.url}" target="a_blank">
           <strong>${story.title}</strong>
         </a>
@@ -166,6 +166,7 @@ $(async function() {
     $navLogin.hide();
     $navLogOut.show();
     $navNewStory.show();
+    $("i").show();
   }
 
   /********************************************************************************/
@@ -256,18 +257,45 @@ $(async function() {
       title: $("#new-story-title").val(),
       url: $("#new-story-url").val()
     }
-    //
     $newStoryForm.trigger("reset");
     $newStoryForm.slideToggle();
-    // 
     let newPost = await storyList.addStory(currentUser, newStoryObj);
-    //
     let postHtml = generateStoryHTML(newPost);
-    //
     let badgeHtml = `<span class="badge badge-warning">NEW</span> `
-
     $("#all-articles-list").prepend(postHtml);
     $("#all-articles-list li:nth-child(1)").find("strong").prepend(badgeHtml);
   });
+
+  /********************************************************************************/
+
+  $(".articles-container").on("click", "i", (e) => {
+    e.preventDefault();
+    //
+    let targetId = $(e.target).parent().attr("id");
+    let list = storyList.stories
+    let targetStory = list.find(story => story.storyId === targetId);
+    //
+    let star = $(e.target)[0]
+    if($(star).hasClass('far')) {
+      $(star).removeClass('far');
+      $(star).addClass('fas');
+      currentUser.favorites.push(targetStory);
+      $.post(`${BASE_URL}/users/${currentUser.username}/favorites/${targetId}`, {token: currentUser.loginToken});
+    } 
+    else {
+      $.ajax({
+        url: `${BASE_URL}/users/${currentUser.username}/favorites/${targetId}`,
+        type: "DELETE",
+        data: {token: currentUser.loginToken},
+        success: function() {
+          $(star).removeClass('fas');
+          $(star).addClass('far');
+        }
+      });
+      let storyIndex = currentUser.favorites.findIndex(story => story.storyId === targetId);
+      currentUser.favorites.splice(storyIndex - 1, 1);
+    }
+  });
+
 
 });
