@@ -70,10 +70,15 @@ $(async function() {
     storyList = storyListInstance;
     // empty out that part of the page
     $allStoriesList.empty();
+    //
+    let favIds = currentUser.favorites.map(storyObj => storyObj.storyId);
     // loop through all of our stories and generate HTML for them
     for (let story of storyList.stories) {
       const result = generateStoryHTML(story);
       $allStoriesList.append(result);
+      if (favIds.includes(story.storyId)) {
+        $(`#${story.storyId} i`).toggleClass('far fas');
+      }
     }
   }
 
@@ -81,8 +86,9 @@ $(async function() {
 
   function updateFavorites() {
     $favoritedArticles.empty();
+
     for (let story of currentUser.favorites) {
-      const result = generateStoryHTML(story);
+      let result = generateStoryHTML(story);
       $favoritedArticles.prepend(result);
     }
   }
@@ -292,9 +298,9 @@ $(async function() {
     // let list = storyList.stories;
     let targetStory = storyList.stories.find(story => story.storyId === targetId);
     let $star = $(e.target).eq(0);
-
+    //
     let res = $star.hasClass('far') ? await currentUser.addFav(targetStory) : await currentUser.delFav(targetStory);
-
+    //
     if (res) {
       $star.toggleClass('far fas');
     }
@@ -302,26 +308,28 @@ $(async function() {
 
   /********************************************************************************/
 
-  // $("#fav-btn").on("click", function(e) {
-  //   console.log("hello")
-  //   updateFavorites();
-  //   $(".btn-light").css("background-color", "#fff");
-  //   $("fav-btn").css("background-color", "#ccc");
-  //   $("#favorited-articles").show();
-  //   $("#all-articles-list").hide();
-  // });
-
-  //When user clicks delete icon, update API and local Memory, then delete li in the Dom.
+  // When user clicks delete icon - update API and local memory, then delete li in the DOM
   $(".articles-container").on("click", ".fa-times", async function(e) {
     e.preventDefault();
+    // get target ID from li
     let targetId = $(e.target).parent().attr("id");
-    // let list = storyList.stories;
+    // delete story from API and local memory
+    let delResponse = await storyList.delStory(targetId, currentUser);
+    // if API call is successful, delete story from local user memory and remove DOM element
+    if (delResponse) {
+      currentUser.deleteStory(targetId);
+      $(`#${targetId}`).remove();
+    };
+  });
 
-    let res = await 
+  /********************************************************************************/
 
-    if (res) {
-      $delete.toggleClass('far fas');
-    }
+  $("#fav-btn").on("click", function(e) {
+    updateFavorites();
+    $(".btn-light").css("background-color", "#fff");
+    $("fav-btn").css("background-color", "#ccc");
+    $("#favorited-articles").show();
+    $("#all-articles-list").hide();
   });
 
 });

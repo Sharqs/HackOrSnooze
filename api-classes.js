@@ -54,9 +54,22 @@ class StoryList {
     return storyInstance;
   }
 
-  async delStory(storyId) {
-    let index = this.stories.findIndex(storyObj => storyObj.id === storyId);
-    this.stories.splice(index-1,1);
+  /********************************************************************************/
+
+  /*
+  Delete a story from the DB as well as locally
+  */
+  async delStory(id, user) {
+    // send delete request to API
+    let delResponse = await $.ajax({
+      url: `${BASE_URL}/stories/${id}`,
+      type: "DELETE",
+      data: { token: user.loginToken }
+    });
+    // remove story from current StoryList
+    this.stories = this.stories.filter(storyObj => storyObj.storyId !== id);
+    // return delete response
+    return delResponse.story;
   }
 }
 
@@ -152,7 +165,7 @@ class User {
   /********************************************************************************/
 
   /*
-  
+  Add fav to api and update local user memory with response
   */
   async addFav(story) {
     let addResponse = await $.post(`${BASE_URL}/users/${this.username}/favorites/${story.storyId}`, { token: this.loginToken });
@@ -164,7 +177,7 @@ class User {
 
 
   /*
-  
+  Delete fav from api and update local user memory with response
   */
   async delFav(story) {
     let delResponse = await $.ajax({
@@ -174,6 +187,21 @@ class User {
     });
     this.favorites = delResponse.user.favorites;
     return delResponse.user;
+  }
+
+  /********************************************************************************/
+
+  /*
+  Delete story from local user memory
+  */
+  deleteStory(id) {
+    // remove story from user's favorites
+    let index = this.favorites.findIndex(storyObj => storyObj.storyId === id)
+    if (index !== -1) {
+      this.favorites.splice(index - 1, 1);
+    }
+    // remove story from user's own stories
+    this.ownStories = this.ownStories.filter(storyObj => storyObj.storyId !== id);
   }
 }
 
