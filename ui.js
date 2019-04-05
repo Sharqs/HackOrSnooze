@@ -126,10 +126,11 @@ $(async function() {
         <a class="article-link" href="${story.url}" target="a_blank">
           <strong>${story.title}</strong>
         </a>
-        <small class="article-author">by ${story.author}</small>
         <small class="article-hostname ${hostName}">(${hostName})</small>
+        <br>
+        <small class="article-author">by ${story.author}</small>
         <span class="fas fa-times hidden ${story.username}"></span>
-        <small class="article-username">posted by ${story.username}</small>
+        <small class="article-username">~posted by ${story.username}</small>
       </li>
     `);
     return storyMarkup;

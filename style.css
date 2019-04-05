@@ -9,7 +9,12 @@ body {
   background-size: 100vw;
   background-attachment: fixed;
 }
-
+li strong:hover{
+  color: #ff6600;
+}
+li .article-hostname:hover{
+  text-decoration-color: #ff6600;
+}
 .articles-container {
   background-image: url('https://www.photohdx.com/images/2017/06/clean-white-paper-background.jpg');
   background-attachment: fixed;
