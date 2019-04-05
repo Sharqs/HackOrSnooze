@@ -53,6 +53,11 @@ class StoryList {
     //
     return storyInstance;
   }
+
+  async delStory(storyId) {
+    let index = this.stories.findIndex(storyObj => storyObj.id === storyId);
+    this.stories.splice(index-1,1);
+  }
 }
 
 /************************************************************************************************************************/

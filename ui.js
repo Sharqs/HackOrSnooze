@@ -96,13 +96,14 @@ $(async function() {
     let hostName = getHostName(story.url);
     // render story markup
     const storyMarkup = $(`
-      <li id="${story.storyId}" class="list-group-item ${story.username}">
+      <li id="${story.storyId}" class="list-group-item">
         <i class="far fa-star hidden"></i>
         <a class="article-link" href="${story.url}" target="a_blank">
           <strong>${story.title}</strong>
         </a>
         <small class="article-author">by ${story.author}</small>
         <small class="article-hostname ${hostName}">(${hostName})</small>
+        <span class="fas fa-times hidden ${story.username}"></span>
         <small class="article-username">posted by ${story.username}</small>
       </li>
     `);
@@ -133,12 +134,12 @@ $(async function() {
   */
 
   function showNavForLoggedInUser() {
-    deleteAble();
     $navLogin.hide();
     $navLogOut.show();
     $navNewStory.show();
     $("i").show();
     $(".filters").show();
+    $(`.${currentUser.username}`).show();
   }
 
   /********************************************************************************/
@@ -270,12 +271,13 @@ $(async function() {
     }
     $newStoryForm.trigger("reset");
     $newStoryForm.slideToggle();
-    let newPost = await storyList.addStory(currentUser, newStoryObj);
-    let postHtml = generateStoryHTML(newPost);
+    let newStoryInstance = await storyList.addStory(currentUser, newStoryObj);
+    let postHtml = generateStoryHTML(newStoryInstance);
     let badgeHtml = `<span class="badge badge-warning">NEW</span> `
     $("#all-articles-list").prepend(postHtml);
     $(".articles-container i").first().show();
     $("#all-articles-list li:nth-child(1)").find("strong").prepend(badgeHtml);
+    $(`.${newStoryInstance.username}`).show();
   });
 
   /********************************************************************************/
@@ -308,12 +310,18 @@ $(async function() {
   //   $("#favorited-articles").show();
   //   $("#all-articles-list").hide();
   // });
-  function deleteAble (){
-    //let canDelete = storyList.filter(story => story.username === currentUser.username).map(story => story.storyId);
-    //canDelete.forEach()
-    $(`.${currentUser.username}`).append()
 
-  }
+  //When user clicks delete icon, update API and local Memory, then delete li in the Dom.
+  $(".articles-container").on("click", ".fa-times", async function(e) {
+    e.preventDefault();
+    let targetId = $(e.target).parent().attr("id");
+    // let list = storyList.stories;
 
+    let res = await 
+
+    if (res) {
+      $delete.toggleClass('far fas');
+    }
+  });
 
 });

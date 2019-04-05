@@ -16,6 +16,13 @@ body {
   background-size: cover;
 }
 
+.fa-times{
+  display: inline-block;
+  font-size: 1.1rem;
+  float: right;
+  color: #d12f42;
+}
+
 h1 {
   font-size: 1.1rem;
   margin: 0;
